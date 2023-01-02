@@ -19,9 +19,9 @@ go get github.com/samber/go-gpt-3-encoder
 Compatible with Node >= 12
 
 ```go
-import "github.com/samber/go-gpt-3-encoder"
+import tokenizer "github.com/samber/go-gpt-3-encoder"
 
-encoder, err := NewEncoder()
+encoder, err := tokenizer.NewEncoder()
 if err != nil {
     log.Fatal(err)
 }
