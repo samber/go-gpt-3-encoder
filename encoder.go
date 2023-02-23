@@ -33,8 +33,8 @@ func loadFiles() (bpeData []byte, encoder []byte, err error) {
 }
 
 // hardcoded
-func bytesToUnicode() map[rune]string {
-	return map[rune]string{
+func bytesToUnicode() map[byte]string {
+	return map[byte]string{
 		0:   "Ā",
 		1:   "ā",
 		2:   "Ă",
@@ -309,8 +309,8 @@ type Encoder struct {
 	bpeRank     map[lo.Tuple2[string, string]]int
 	encoder     map[string]int
 	decoder     map[int]string
-	byteEncoder map[rune]string
-	byteDecoder map[string]rune
+	byteEncoder map[byte]string
+	byteDecoder map[string]byte
 
 	cache sync.Map
 }
@@ -462,9 +462,9 @@ func (e *Encoder) Encode(text string) ([]int, error) {
 	}
 
 	for _, match := range matches {
-		runes := []rune(match)
+		b := []byte(match)
 
-		token := strings.Join(lo.Map(runes, func(item rune, _ int) string {
+		token := strings.Join(lo.Map(b, func(item byte, _ int) string {
 			return e.byteEncoder[item]
 		}), "")
 
@@ -484,7 +484,7 @@ func (e *Encoder) Decode(tokens []int) string {
 
 	parts = lo.ChunkString(strings.Join(parts, ""), 1)
 
-	text := lo.Map(parts, func(item string, _ int) rune {
+	text := lo.Map(parts, func(item string, _ int) byte {
 		return e.byteDecoder[item]
 	})
 

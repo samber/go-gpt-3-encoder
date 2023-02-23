@@ -11,7 +11,7 @@ func TestBytesToUnicode(t *testing.T) {
 	is := assert.New(t)
 
 	// Most useful test E.V.E.R ^^
-	want := map[rune]string{
+	want := map[byte]string{
 		0:   "Ā",
 		1:   "ā",
 		2:   "Ă",
@@ -454,11 +454,10 @@ func TestNewEncoder_encode(t *testing.T) {
 	is.EqualValues(want, got)
 	is.Nil(err)
 
-	// @TODO
-	// want = []int{31373, 50169, 233, 995, 12520, 234, 235, 770, 318, 257, 890, 4731, 284, 1332, 1771, 393, 407, 262, 44805, 2071, 373, 5969, 0}
-	// got, err = encoder.Encode("hello 👋 world 🌍 This is a long string to test whether or not the emoji issue was fixed!")
-	// is.EqualValues(want, got)
-	// is.Nil(err)
+	want = []int{31373, 50169, 233, 995, 12520, 234, 235, 770, 318, 257, 890, 4731, 284, 1332, 1771, 393, 407, 262, 44805, 2071, 373, 5969, 0}
+	got, err = encoder.Encode("hello 👋 world 🌍 This is a long string to test whether or not the emoji issue was fixed!")
+	is.EqualValues(want, got)
+	is.Nil(err)
 }
 
 func TestNewEncoder_decode(t *testing.T) {
@@ -471,10 +470,9 @@ func TestNewEncoder_decode(t *testing.T) {
 	got := encoder.Decode([]int{31373, 995, 770, 318, 257, 890, 4731, 284, 1332, 1771, 393, 407, 262, 44805, 2071, 373, 5969, 0})
 	is.EqualValues(want, got)
 
-	// @TODO
-	// want = "hello 👋 world 🌍 This is a long string to test whether or not the emoji issue was fixed!"
-	// got = encoder.Decode([]int{31373, 50169, 233, 995, 12520, 234, 235, 770, 318, 257, 890, 4731, 284, 1332, 1771, 393, 407, 262, 44805, 2071, 373, 5969, 0})
-	// is.EqualValues(want, got)
+	want = "hello 👋 world 🌍 This is a long string to test whether or not the emoji issue was fixed!"
+	got = encoder.Decode([]int{31373, 50169, 233, 995, 12520, 234, 235, 770, 318, 257, 890, 4731, 284, 1332, 1771, 393, 407, 262, 44805, 2071, 373, 5969, 0})
+	is.EqualValues(want, got)
 }
 
 func TestNewEncoder_e2e(t *testing.T) {
@@ -489,7 +487,8 @@ func TestNewEncoder_e2e(t *testing.T) {
 		lo.T2("\t", []int{197}),
 		lo.T2("This is some text", []int{1212, 318, 617, 2420}),
 		lo.T2("indivisible", []int{521, 452, 12843}),
-		// lo.T2("hello 👋 world 🌍", []int{31373, 50169, 233, 995, 12520, 234, 235}),	// @TODO
+		lo.T2("hello 👋 world 🌍", []int{31373, 50169, 233, 995, 12520, 234, 235}),
+		lo.T2("hello, 世界", []int{31373, 11, 220, 10310, 244, 45911, 234}),
 	}
 
 	for _, c := range cases {
