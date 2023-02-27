@@ -1,4 +1,4 @@
-module github.com/samber/go-gpt-3-encode
+module github.com/samber/go-gpt-3-encoder
 
 go 1.18
 
