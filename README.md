@@ -34,8 +34,8 @@ if err != nil {
 }
 
 fmt.Println("We can look at each token and what it represents:")
-for _, token := encoded {
-  fmt.Printf("%s -- %s\n", token, encoder.Decode([]string{token}))
+for _, token := range encoded {
+    fmt.Printf("%d -- %s\n", token, encoder.Decode([]int{token}))
 }
 
 decoded := encoder.Decode(encoded)
