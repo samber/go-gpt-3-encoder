@@ -16,8 +16,6 @@ go get github.com/samber/go-gpt-3-encoder
 
 ## Usage
 
-Compatible with Node >= 12
-
 ```go
 import tokenizer "github.com/samber/go-gpt-3-encoder"
 
